@@ -1,0 +1,32 @@
+name: CI
+
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        run: |
+          echo "Setting up Docker"
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          sudo systemctl start docker
+          sudo systemctl enable docker
+
+      - name: Run Docker container
+        run: |
+          echo "Running Docker container"
+          docker run -it --rm \
+            -e DISPLAY=host.docker.internal:0.0 \
+            -v /tmp/.X11-unix:/tmp/.X11-unix \
+            db_app
