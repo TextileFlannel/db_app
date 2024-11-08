@@ -15,6 +15,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Build Docker image
+        run: |
+          echo "Building Docker image"
+          docker build -t db_app .
+
       - name: Run Docker container
         run: |
           echo "Running Docker container"
